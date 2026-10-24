@@ -8,6 +8,8 @@ Submission status: **not submitted to Devpost**. The team controls the final sub
 
 The editable six-slide deck is `presentation/SoundBridge-judging.pptx`. It includes speaker notes and a phone screenshot. Download it before judging so the slides are available locally.
 
+For a browser slideshow that works offline, open `presentation/index.html`. Keep the adjacent `slides` directory. Arrow keys advance the slides, and the full-screen button enlarges the presentation.
+
 ## Before the judges arrive
 
 Be at **Gallogly Hall, Room 127, by 5:15 PM**. Open the app on your phone and laptop, use the same Wi-Fi if available, and use headphones for the volunteer. Charge both devices and check browser camera/microphone access. Chrome or Edge is the best choice for voice typing. Keep the guided demo available as a fallback.

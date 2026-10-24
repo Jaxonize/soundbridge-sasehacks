@@ -8,6 +8,8 @@ A phone-first web app connecting Deaf and hard-of-hearing people with community 
 
 [Judging slides](presentation/SoundBridge-judging.pptx) · [Demo script](docs/DEMO.md) · [Devpost draft](docs/DEVPOST_DRAFT.md)
 
+For an offline slideshow without PowerPoint, open `presentation/index.html` in a browser. Keep its `slides` folder beside it. Use the arrow keys to advance.
+
 ## Try it in a minute
 
 Click **Feel the connection** for a guided, explicitly simulated conversation. Explore a kettle, a station announcement, or a doorbell. Try a quick reply, the persistent visual attention signal, and the text focus button. The practice volunteer and scenes are scripted, not AI sound detection.
