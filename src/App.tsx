@@ -461,6 +461,7 @@ export default function App() {
         if (result.room?.peer) {
           waitingActive.current = false;
           setRoom(result.room);
+          setContext(result.room.context);
           setScreen("call");
           return;
         }
@@ -512,6 +513,7 @@ export default function App() {
     if (invite) {
       const result = await api<{ room: Room }>("join", s, { invite });
       setRoom(result.room);
+      setContext(result.room.context);
       setScreen("call");
       setInvite(null);
       window.history.replaceState({}, "", location.pathname);
