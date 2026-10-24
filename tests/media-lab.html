@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>SoundBridge — synthetic device lab</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script>
+      // Local-only test fixture. This file is not copied into the deployed build.
+      // Exercise the real permission, preview, camera, WebRTC and cleanup paths with
+      // labeled generated media. Never use a physical camera or microphone in QA.
+      const nativeDevices = navigator.mediaDevices;
+      Object.defineProperty(nativeDevices, "getUserMedia", {
+        configurable: true,
+        value: async function (constraints) {
+          const tracks = [];
+          if (constraints.video) {
+            const canvas = document.createElement("canvas");
+            canvas.width = 960;
+            canvas.height = 540;
+            const ctx = canvas.getContext("2d");
+            const color =
+              new URLSearchParams(location.search).get("color") === "peach"
+                ? "#c47b57"
+                : "#728a63";
+            const stream = canvas.captureStream(15);
+            tracks.push(...stream.getVideoTracks());
+            const draw = () => {
+              if (tracks.every((t) => t.readyState === "ended")) return;
+              ctx.fillStyle = color;
+              ctx.fillRect(0, 0, 960, 540);
+              ctx.fillStyle = "#fff9e8";
+              ctx.font = "bold 43px sans-serif";
+              ctx.textAlign = "center";
+              ctx.fillText("SoundBridge test camera", 480, 220);
+              ctx.font = "24px sans-serif";
+              ctx.fillText("Generated media · no physical devices", 480, 275);
+              ctx.font = "32px monospace";
+              ctx.fillText(new Date().toLocaleTimeString(), 480, 340);
+              ctx.fillStyle = "#eadba5";
+              ctx.beginPath();
+              ctx.arc(130 + ((Date.now() / 12) % 700), 430, 18, 0, Math.PI * 2);
+              ctx.fill();
+              requestAnimationFrame(draw);
+            };
+            draw();
+          }
+          if (constraints.audio) {
+            const context = new AudioContext();
+            const oscillator = context.createOscillator();
+            const gain = context.createGain();
+            gain.gain.value = 0.00001;
+            const destination = context.createMediaStreamDestination();
+            oscillator.connect(gain);
+            gain.connect(destination);
+            oscillator.start();
+            tracks.push(...destination.stream.getAudioTracks());
+            const stop = setInterval(() => {
+              if (
+                destination.stream
+                  .getTracks()
+                  .every((t) => t.readyState === "ended")
+              ) {
+                oscillator.stop();
+                context.close();
+                clearInterval(stop);
+              }
+            }, 500);
+          }
+          return new MediaStream(tracks);
+        },
+      });
+    </script>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
